@@ -11,7 +11,7 @@ If you're outside of VersionOne, you'll need to update the URL of the Master Jen
 _NOTE_: You may need to configure Powershell to allow this script to be run. A simple, and likely dumb, way to do this is to run `> set-executionpolicy unrestricted`.
 
 ## Using
-Just run the script with Powershell!
+Just run the script with Powershell on the slave!
 
 ## WTF is going on?
 This script stops the running "Jenkins Slave" service, pulls down the latest `slave.jar` from the master server, and restarts the service.
