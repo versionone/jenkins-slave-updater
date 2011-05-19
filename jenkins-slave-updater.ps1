@@ -1,4 +1,5 @@
 # version 0.1.0
+# for more info, see: https://github.com/versionone/jenkins-slave-updater
 
 echo "=== Stopping Jenkins Slave ==="
 $jenkins = get-service -displayname "Jenkins Slave"
