@@ -1,3 +1,5 @@
+# version 0.1.0
+
 echo "=== Stopping Jenkins Slave ==="
 $jenkins = get-service -displayname "Jenkins Slave"
 $jenkins.Stop()
