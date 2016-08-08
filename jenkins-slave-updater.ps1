@@ -7,7 +7,7 @@ $jenkins.Stop()
 $jenkins.WaitForStatus("Stopped")
 
 echo "=== Getting new slave.jar from Master server ==="
-invoke-command -scriptblock { curl -O "http://ci-server.corp.versionone.net/jnlpJars/slave.jar" }
+Invoke-WebRequest "http://ci-server.corp.versionone.net/jnlpJars/slave.jar" -OutFile "slave.jar"
 
 echo "=== Starting Jenkins Slave ==="
 $jenkins.Start()
