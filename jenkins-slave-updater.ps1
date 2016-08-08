@@ -1,13 +1,24 @@
 # version 0.2.0
 # for more info, see: https://github.com/versionone/jenkins-slave-updater
 
+# Get Service name & master Server from Agent XML
+[xml]$data = Get-Content "jenkins-slave.xml"
+$args = $data.service.arguments
+$masterUrlMatch = [regex]
+if ($args -match "-jnlpUrl (http[^ ]*)/computer/[^ /]*/slave-agent.jnlp ") {
+	$base = $matches[1]
+} else {
+	$base = "http://ci-server.corp.versionone.net/"
+}
+$servicename = $data.service.id
+
 echo "=== Stopping Jenkins Slave ==="
-$jenkins = get-service -displayname "Jenkins Slave"
+$jenkins = get-service -name $servicename
 $jenkins.Stop()
 $jenkins.WaitForStatus("Stopped")
 
-echo "=== Getting new slave.jar from Master server ==="
-Invoke-WebRequest "http://ci-server.corp.versionone.net/jnlpJars/slave.jar" -OutFile "slave.jar"
+echo "=== Getting new slave.jar from Master server $base ==="
+Invoke-WebRequest "$base/jnlpJars/slave.jar" -OutFile "slave.jar"
 
 echo "=== Starting Jenkins Slave ==="
 $jenkins.Start()
