@@ -1,6 +1,12 @@
 # version 0.2.0
 # for more info, see: https://github.com/versionone/jenkins-slave-updater
 
+param (
+     [int]$sleep = 0
+)
+
+Start-Sleep -s $sleep
+
 # Get Service name & master Server from Agent XML
 [xml]$data = Get-Content "$PSScriptRoot\jenkins-slave.xml"
 $args = $data.service.arguments
