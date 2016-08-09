@@ -2,7 +2,7 @@
 # for more info, see: https://github.com/versionone/jenkins-slave-updater
 
 # Get Service name & master Server from Agent XML
-[xml]$data = Get-Content "jenkins-slave.xml"
+[xml]$data = Get-Content "$PSScriptRoot\jenkins-slave.xml"
 $args = $data.service.arguments
 $masterUrlMatch = [regex]
 if ($args -match "-jnlpUrl (http[^ ]*)/computer/[^ /]*/slave-agent.jnlp ") {
@@ -18,7 +18,7 @@ $jenkins.Stop()
 $jenkins.WaitForStatus("Stopped")
 
 echo "=== Getting new slave.jar from Master server $base ==="
-Invoke-WebRequest "$base/jnlpJars/slave.jar" -OutFile "slave.jar"
+Invoke-WebRequest "$base/jnlpJars/slave.jar" -OutFile "$PSScriptRoot\slave.jar"
 
 echo "=== Starting Jenkins Slave ==="
 $jenkins.Start()
