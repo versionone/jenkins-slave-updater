@@ -13,6 +13,12 @@ _NOTE_: You may need to configure Powershell to allow this script to be run. A s
 ## Using
 Just run the script with Powershell on the slave!
 
+If you want to use Jenkins to update your Jenkins slaves (well, that sounds crazy), you need to make sure that the slave is restarted after the Job is finished. As http://wiki.jenkins-ci.org/display/JENKINS/Spawning+processes+from+build say, this is complicated by the fact that Jenkins tries to be helpful and kills processes lingering after the Job is finished. This build step worked for me:
+
+    copy *.ps1 %BASE%
+    set BUILD_ID=dontKillMe
+    start powershell -NoProfile -ExecutionPolicy Bypass %base%\jenkins-slave-updater.ps1 -Sleep 30
+
 ## WTF is going on?
 This script stops the running "Jenkins Slave" service, pulls down the latest `slave.jar` from the master server, and restarts the service.
 
