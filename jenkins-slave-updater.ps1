@@ -7,8 +7,10 @@ param (
 
 Start-Sleep -s $sleep
 
+$dir = Split-Path $script:MyInvocation.MyCommand.Path
+
 # Get Service name & master Server from Agent XML
-[xml]$data = Get-Content "$PSScriptRoot\jenkins-slave.xml"
+[xml]$data = Get-Content "$dir\jenkins-slave.xml"
 $args = $data.service.arguments
 $masterUrlMatch = [regex]
 if ($args -match "-jnlpUrl (http[^ ]*)/computer/[^ /]*/slave-agent.jnlp ") {
@@ -24,7 +26,7 @@ $jenkins.Stop()
 $jenkins.WaitForStatus("Stopped")
 
 echo "=== Getting new slave.jar from Master server $base ==="
-Invoke-WebRequest "$base/jnlpJars/slave.jar" -OutFile "$PSScriptRoot\slave.jar"
+Invoke-WebRequest "$base/jnlpJars/slave.jar" -OutFile "$dir\slave.jar"
 
 echo "=== Starting Jenkins Slave ==="
 $jenkins.Start()
